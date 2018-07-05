@@ -1,3 +1,18 @@
+'''
+ Images will be uploaded soon
+'''
+
+# no preprocessing here
+# BUT FEATURE SCALING is very important, but later
+
+# Part 1 - Building the CNN
+
+'''
+    You must have test folder, train folder
+    within each one of them, cats folder & dog folder
+    within them we will have cats photos & dog photos
+    
+'''
 
 # Importing the Keras libraries and packages
 from keras.models import Sequential   # initialize the neural network
@@ -30,6 +45,8 @@ classifier.add(Conv2D(32, (3, 3), input_shape = (64, 64, 3), activation = 'relu'
 classifier.add(MaxPooling2D(pool_size = (2, 2)))
 
 # Adding a second convolutional layer
+# so in another conv layer, no need to add input_shape
+# we can also make the 32->64 here
 classifier.add(Conv2D(32, (3, 3), activation = 'relu'))
 classifier.add(MaxPooling2D(pool_size = (2, 2)))
 # pool_size - (2, 2) is recommended
@@ -48,8 +65,6 @@ classifier.add(Dense(units = 1, activation = 'sigmoid'))
 # adam->stochastic gradient descent
 # loss>
 classifier.compile(optimizer = 'adam', loss = 'binary_crossentropy', metrics = ['accuracy'])
-
-
 
 # Part 2 - Fitting the CNN to the images
 # to prevent overfitting
@@ -94,11 +109,17 @@ training_set = train_datagen.flow_from_directory('dataset/training_set',
                                                  batch_size = 32,
                                                  class_mode = 'binary')
 
+# higher target size in both results to better results
 test_set = test_datagen.flow_from_directory('dataset/test_set',
                                             target_size = (64, 64),
                                             batch_size = 32,
                                             class_mode = 'binary')
 
+# number of images we have in our training set
+# since we have 8000 images
+
+# 50 was there in the beginning
+# number of images in the test set - 2000
 classifier.fit_generator(training_set,
                          steps_per_epoch = 8000,
                          epochs = 25,
