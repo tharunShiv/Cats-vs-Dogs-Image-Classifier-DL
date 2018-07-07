@@ -125,3 +125,24 @@ classifier.fit_generator(training_set,
                          epochs = 25,
                          validation_data = test_set,
                          validation_steps = 2000)
+
+
+# Part 3 - Making new predictions
+
+'''MAY WORK'''
+from skimage.io import imread
+from skimage.transform import resize
+import numpy as np
+class_labels = {v: k for k, v in training_set.class_indices.items()}
+ 
+path_to_file =''
+img = imread(path_to_file) #make sure that path_to_file contains the path to the image you want to predict on. 
+img = resize(img,(64,64))
+img = np.expand_dims(img,axis=0)
+ 
+if(np.max(img)>1):
+    img = img/255.0
+ 
+prediction = classifier.predict_classes(img)
+ 
+print(class_labels[prediction[0][0]])
